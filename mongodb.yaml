@@ -4,8 +4,8 @@
   tasks: 
   - name: coping
     ansible.builtin.copy:
-    src: mongodb.repo
-    dest: vim /etc/yum.repos.d/mongo.repo
+      src: mongodb.repo
+      dest: vim /etc/yum.repos.d/mongo.repo
   - name: install mongodb
     ansible.builtin.apt:
       name: mongodb-org
