@@ -38,10 +38,12 @@
       path: /app
       state: present
     when: dir.stat.exists == False
+
   - name: download application code
     ansible.builtin.get_url:
       path: https://roboshop-builds.s3.amazonaws.com/cart.zip
       dest: /tmp
+      
   - name: extract the file
     ansible.builtin.unarchive:
       src: /tmp/cart.zip
