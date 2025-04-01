@@ -5,9 +5,9 @@
   - name: coping
     ansible.builtin.copy:
       src: mongodb.repo
-      dest: /etc/apt/sources.list.d/mongo.repo
+      dest: /etc/yum.repos.d
   - name: install mongodb
-    ansible.builtin.apt:
+    ansible.builtin.yum:
       name: mongodb-org
       state: present
   - name: enable and start
