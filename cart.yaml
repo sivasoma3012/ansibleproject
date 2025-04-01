@@ -9,26 +9,32 @@
     ansible.builtin.yum:
       name: nodejs
       state: present
+
   - name: user exists or not
     ansible.builtin.command: id roboshop
     register: output
     ignore_errors: true
+
   - name: exist status
     ansible.builtin.debug:
       msg: "output is {{output.rc}}"
+
   - name: user creation
     ansible.builtin.user:
       name: roboshop
     when: output.rc != 0
+
   - name: directory exist  or not
     ansible.builtin.stat:
       path: /app
     register: dir
+
   - name: dispaly file existance
     ansible.builtin.debug:
       msg: "output is {{dir}}"
+
   - name: create
-    ansibile.builtin.file:
+    ansible.builtin.file:
       path: /app
       state: present
     when: dir.stat.exists == False
@@ -40,7 +46,7 @@
     ansible.builtin.unarchive:
       src: /tmp/cart.zip
       dest: /app
-      
+
 
 
 
