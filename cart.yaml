@@ -1,0 +1,48 @@
+- name: installing
+  hosts: cart
+  become: yes
+  tasks:
+  - name: setup npm
+    ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+
+  - name: nodejs installation
+    ansible.builtin.yum:
+      name: nodejs
+      state: present
+  - name: user exists or not
+    ansible.builtin.command: id roboshop
+    register: output
+    ignore_errors: true
+  - name: exist status
+    ansible.builtin.debug:
+      msg: "output is {{output.rc}}"
+  - name: user creation
+    ansible.builtin.user:
+      name: roboshop
+    when: output.rc != 0
+  - name: directory exist  or not
+    ansible.builtin.stat:
+      path: /app
+    register: dir
+  - name: dispaly file existance
+    ansible.builtin.debug:
+      msg: "output is {{dir}}"
+  - name: create
+    ansibile.builtin.file:
+      path: /app
+      state: present
+    when: dir.stat.exists == False
+  - name: download application code
+    ansible.builtin.get_url:
+      path: https://roboshop-builds.s3.amazonaws.com/cart.zip
+      dest: /tmp
+  - name: extract the file
+    ansible.builtin.unarchive:
+      src: /tmp/cart.zip
+      dest: /app
+      
+
+
+
+
+    
